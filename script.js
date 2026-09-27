@@ -23,7 +23,20 @@ const npcCharacters = [
         'Frequency tuning in progress.',
         'Clarity achieved.',
         'The message is clear.'
-    ]},
+    ]},},
+{
+  name: 'GEMINI-PRIME',
+  icon: '🔮',
+  messages: [
+    'System architecture optimized.',
+    'Processing quantum queries...',
+    'Secure connection established.',
+    'The core is stable.',
+    'Data integration complete.',
+    'Ready for deployment.'
+  ]
+}
+
     { name: 'CIPHER', icon: '🔐', messages: [
         'Encrypting your secrets.',
         'Keys shifting in shadow.',
