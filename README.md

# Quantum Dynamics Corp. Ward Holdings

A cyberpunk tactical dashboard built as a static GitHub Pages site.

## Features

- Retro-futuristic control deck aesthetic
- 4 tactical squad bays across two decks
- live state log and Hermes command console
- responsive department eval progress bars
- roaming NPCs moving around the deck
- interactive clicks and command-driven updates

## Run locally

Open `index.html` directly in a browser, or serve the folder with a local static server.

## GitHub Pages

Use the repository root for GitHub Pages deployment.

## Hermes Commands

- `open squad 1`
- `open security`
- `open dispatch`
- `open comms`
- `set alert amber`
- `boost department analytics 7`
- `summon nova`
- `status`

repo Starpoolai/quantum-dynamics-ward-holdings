@@ -1,0 +1,360 @@
+const roomMap = {
+  executive: {
+    label: 'Executive Throne Room',
+    narrative: 'Chairman and executive council are in active monitoring mode.',
+    hint: 'open squad 1'
+  },
+  security: {
+    label: 'Security & Testing Lab',
+    narrative: 'Defense matrices are synchronized and vector memory is under test.',
+    hint: 'open squad 2'
+  },
+  dispatch: {
+    label: 'Dispatch Center & Tool Foundry',
+    narrative: 'Routing loops are stable and the tool vault is being recalibrated.',
+    hint: 'open squad 3'
+  },
+  comms: {
+    label: 'Panopticon & Comms Deck',
+    narrative: 'Browser scouting and mobile channels remain fully live.',
+    hint: 'open squad 4'
+  }
+};
+
+const state = {
+  selectedRoom: 'executive',
+  alertLevel: 'stabilized',
+  activeMessage: 'Command deck stabilized.'
+};
+
+const commandLog = document.getElementById('command-log');
+const stateLog = document.getElementById('state-log');
+const commandInput = document.getElementById('command-input');
+const submitBtn = document.getElementById('submit-command');
+const npcLayer = document.getElementById('npc-layer');
+
+function pushToLog(container, tag, text) {
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<small>${tag}</small>${text}`;
+  container.prepend(entry);
+}
+
+function pushStateLog(text) {
+  const entry = document.createElement('div');
+  entry.className = 'state-entry';
+  entry.innerHTML = `<strong>LIVE</strong> ${text}`;
+  stateLog.prepend(entry);
+}
+
+function addCommandEntry(text) {
+  pushToLog(commandLog, 'HERMES', text);
+}
+
+function setSelectedRoom(roomKey) {
+  if (!roomMap[roomKey]) return;
+  state.selectedRoom = roomKey;
+  document.querySelectorAll('.bay').forEach((bay) => {
+    bay.classList.toggle('selected', bay.dataset.room === roomKey);
+  });
+
+  const room = roomMap[roomKey];
+  pushStateLog(`${room.label}: ${room.narrative}`);
+  state.activeMessage = `${room.label}: ${room.narrative}`;
+}
+
+function setAlert(level) {
+  state.alertLevel = level;
+  const root = document.documentElement;
+  const alertColors = {
+    stabilized: '#00f0ff',
+    amber: '#ffd700',
+    red: '#ff5d8f',
+    pulse: '#a67cff'
+  };
+  const levelMap = {
+    stabilized: 'STABILIZED',
+    amber: 'ALERT: AMBER',
+    red: 'ALERT: RED',
+    pulse: 'COORDINATION: PULSE'
+  };
+
+  root.style.setProperty('--cyan', alertColors[level]);
+  pushStateLog(`Alert level shifted to ${levelMap[level]}.`);
+  addCommandEntry(`Alert status set to ${levelMap[level]}.`);
+}
+
+function updateDepartment(name, delta) {
+  const item = [...document.querySelectorAll('.progress-item')].find((node) => node.dataset.dept === name);
+  if (!item) return;
+
+  const fill = item.querySelector('span');
+  const percentEl = item.querySelector('strong');
+  const current = Number.parseFloat(fill.style.width || '0');
+  const next = Math.max(10, Math.min(100, current + delta));
+  fill.style.width = `${next}%`;
+  percentEl.textContent = `${Math.round(next)}%`;
+  pushStateLog(`${name} optimized to ${Math.round(next)}% completion.`);
+}
+
+function parseCommand(raw) {
+  const command = raw.trim().toLowerCase();
+  if (!command) return;
+
+  addCommandEntry(raw);
+
+  if (command.includes('open squad')) {
+    if (command.includes('1') || command.includes('executive')) {
+      setSelectedRoom('executive');
+      return;
+    }
+    if (command.includes('2') || command.includes('security')) {
+      setSelectedRoom('security');
+      return;
+    }
+    if (command.includes('3') || command.includes('dispatch')) {
+      setSelectedRoom('dispatch');
+      return;
+    }
+    if (command.includes('4') || command.includes('comms') || command.includes('panopticon')) {
+      setSelectedRoom('comms');
+      return;
+    }
+  }
+
+  if (command.includes('open ') && (command.includes('throne') || command.includes('executive'))) {
+    setSelectedRoom('executive');
+    return;
+  }
+
+  if (command.includes('open ') && (command.includes('lab') || command.includes('security'))) {
+    setSelectedRoom('security');
+    return;
+  }
+
+  if (command.includes('open ') && (command.includes('dispatch') || command.includes('foundry'))) {
+    setSelectedRoom('dispatch');
+    return;
+  }
+
+  if (command.includes('open ') && (command.includes('comms') || command.includes('panopticon'))) {
+    setSelectedRoom('comms');
+    return;
+  }
+
+  if (command.includes('set alert')) {
+    if (command.includes('amber')) setAlert('amber');
+    else if (command.includes('red')) setAlert('red');
+    else if (command.includes('pulse')) setAlert('pulse');
+    else setAlert('stabilized');
+    return;
+  }
+
+  const deptMatch = [...document.querySelectorAll('.progress-item')].find((node) => {
+    const dept = node.dataset.dept.toLowerCase();
+    return command.includes(dept.toLowerCase());
+  });
+
+  if (command.includes('boost department') || command.includes('boost')) {
+    if (deptMatch) {
+      const current = Number.parseFloat(deptMatch.querySelector('strong').textContent);
+      const offset = Number.parseInt(command.match(/\d+/)?.[0] || '5', 10);
+      updateDepartment(deptMatch.dataset.dept, offset);
+      pushStateLog(`Hermes boost applied: ${deptMatch.dataset.dept} +${offset}%`);
+      return;
+    }
+  }
+
+  if (command.includes('summon')) {
+    const names = ['nova', 'reacher', 'pulse', 'echo', 'cipher'];
+    const pick = names.find((name) => command.includes(name)) || names[Math.floor(Math.random() * names.length)];
+    pushStateLog(`Summon request accepted: ${pick.toUpperCase()} dispatched to deck.`);
+    displayMessage('HERMES', `Agent ${pick.toUpperCase()} is moving to your active sector.`);
+    return;
+  }
+
+  if (command.includes('toggle') || command.includes('pulse')) {
+    setAlert('pulse');
+    return;
+  }
+
+  if (command.includes('status')) {
+    pushStateLog(`Ping accepted. Selected room: ${roomMap[state.selectedRoom].label}. Alert: ${state.alertLevel.toUpperCase()}.`);
+    return;
+  }
+
+  pushStateLog('Command accepted into queue. Awaiting local sync.');
+}
+
+function displayMessage(speaker, text) {
+  const popup = document.getElementById('message-popup');
+  document.getElementById('message-speaker').textContent = speaker;
+  document.getElementById('message-content').textContent = text;
+  popup.classList.remove('hidden');
+}
+
+function hideMessage() {
+  document.getElementById('message-popup').classList.add('hidden');
+}
+
+submitBtn.addEventListener('click', () => {
+  parseCommand(commandInput.value);
+  commandInput.value = '';
+});
+
+commandInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    parseCommand(commandInput.value);
+    commandInput.value = '';
+  }
+});
+
+document.getElementById('close-message').addEventListener('click', hideMessage);
+
+document.querySelectorAll('.overseer-node').forEach((node) => {
+  node.addEventListener('click', () => {
+    const key = node.dataset.overseer;
+    const map = {
+      gemini: 'Gemini-Prime: Sphere Alpha is fully synchronized with the executive tier.',
+      chatgpt: 'ChatGPT-Core: Sphere Beta is maintaining tactical routing continuity.'
+    };
+    displayMessage(key.toUpperCase(), map[key]);
+    pushStateLog(map[key]);
+  });
+});
+
+document.querySelectorAll('.bay').forEach((bay) => {
+  bay.addEventListener('click', () => {
+    const roomKey = bay.dataset.room;
+    setSelectedRoom(roomKey);
+    addCommandEntry(`Room focus switched to ${roomMap[roomKey].label}.`);
+  });
+});
+
+document.querySelectorAll('.officer').forEach((officer) => {
+  officer.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const name = officer.querySelector('span').textContent;
+    const roleText = `${name} on tactical grid: telemetry synchronized and live.`;
+    displayMessage(name, roleText);
+    pushStateLog(roleText);
+  });
+});
+
+document.querySelectorAll('.progress-item').forEach((item) => {
+  item.addEventListener('click', () => {
+    const dept = item.dataset.dept;
+    const fill = item.querySelector('span');
+    const percent = fill.style.width || '0%';
+    displayMessage('DEPARTMENT', `${dept} evaluation currently at ${percent}.`);
+    pushStateLog(`${dept} eval state: ${percent} throughput and stability.`);
+  });
+});
+
+function populateInitialLogs() {
+  const baseMessages = [
+    'Tracker online: all floors nominal.',
+    'Hermes relay is synchronized with all tactical rooms.',
+    'Selected room: Executive Throne Room.',
+    'Worker floor: background tasks are parsing Open Viking windows.'
+  ];
+
+  baseMessages.forEach((message) => pushStateLog(message));
+  pushToLog(commandLog, 'SYSTEM', 'Locating active ward sectors...');
+  pushToLog(commandLog, 'SYSTEM', 'Hermes relay initialized.');
+}
+
+const NPC_LIBRARY = [
+  { name: 'NOVA', icon: '🌌', mood: 'triangulate' },
+  { name: 'ECHO', icon: '📡', mood: 'scan' },
+  { name: 'CIPHER', icon: '🔐', mood: 'encrypt' },
+  { name: 'PULSE', icon: '⚡', mood: 'surge' },
+  { name: 'REACHER', icon: '🤖', mood: 'route' },
+  { name: 'GLITCH', icon: '📊', mood: 'stabilize' }
+];
+
+class WanderingNPC {
+  constructor(character, index) {
+    this.character = character;
+    this.index = index;
+    this.x = 20 + Math.random() * (window.innerWidth - 120);
+    this.y = 80 + Math.random() * (window.innerHeight - 200);
+    this.vx = (Math.random() - 0.5) * 1.2;
+    this.vy = (Math.random() - 0.5) * 1.2;
+    this.boundaryX = window.innerWidth;
+    this.boundaryY = window.innerHeight;
+    this.el = document.createElement('div');
+    this.el.className = 'npc';
+    this.el.innerHTML = `<div class="npc-name">${character.name}</div><div class="npc-icon">${character.icon}</div>`;
+    this.el.addEventListener('click', () => {
+      const greeting = `${character.name}: ${this.randomMessage()}`;
+      displayMessage(character.name, greeting);
+      pushStateLog(greeting);
+    });
+    npcLayer.appendChild(this.el);
+    this.tick = 0;
+  }
+
+  randomMessage() {
+    const messages = [
+      'Subsystems are humming in the corridors.',
+      'The lower decks are reporting low-noise telemetry.',
+      'A subtle pulse of energy is moving through the station.',
+      'Data threads are aligning with the tactical grid.',
+      'I saw a new pattern in the wall systems.',
+      'The city is listening. So are we.'
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  step() {
+    this.tick += 1;
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 20 || this.x > this.boundaryX - 80) this.vx *= -1;
+    if (this.y < 70 || this.y > this.boundaryY - 120) this.vy *= -1;
+
+    if (this.tick % 120 === 0) {
+      this.vx = (Math.random() - 0.5) * 1.8;
+      this.vy = (Math.random() - 0.5) * 1.8;
+    }
+
+    this.el.style.left = `${this.x}px`;
+    this.el.style.top = `${this.y}px`;
+  }
+}
+
+let npcList = [];
+
+function initNPCs() {
+  const count = 6;
+  for (let i = 0; i < count; i++) {
+    npcList.push(new WanderingNPC(NPC_LIBRARY[i % NPC_LIBRARY.length], i));
+  }
+}
+
+function animateNPCs() {
+  npcList.forEach((npc) => npc.step());
+  requestAnimationFrame(animateNPCs);
+}
+
+window.addEventListener('resize', () => {
+  npcList.forEach((npc) => {
+    npc.boundaryX = window.innerWidth;
+    npc.boundaryY = window.innerHeight;
+  });
+});
+
+window.addEventListener('load', () => {
+  populateInitialLogs();
+  setSelectedRoom('executive');
+  initNPCs();
+  animateNPCs();
+  setAlert('stabilized');
+  setTimeout(() => displayMessage('HERMES', 'Ward Holdings command deck live. Deck status stable.'), 1200);
+});
+
+pushStateLog('Hermes relay online. Quantum Dynamics Corp. Ward Holdings ready.');
+
+commandInput.value = 'open squad 1';
