@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Dynamics Ward Holdings - Tactical Command Deck</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="tactical-deck">
+        <!-- Background grid and ambient effects -->
+        <div class="ambient-grid"></div>
+        <div class="ambient-scan-lines"></div>
+        
+        <!-- Top HUD bar -->
+        <div class="hud-top">
+            <div class="hud-section facility-status">
+                <h2>⬢ FACILITY STATUS</h2>
+                <div class="status-panel">
+                    <div class="status-item">
+                        <span class="label">COMPUTE LOAD:</span>
+                        <div class="status-bar"><div class="status-fill" style="width: 68%;"></div></div>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">VECTOR MEMORY:</span>
+                        <div class="status-bar"><div class="status-fill" style="width: 84%;"></div></div>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">NETWORK UPTIME:</span>
+                        <span class="value">99.7%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hud-section overseer-nodes">
+                <h2>⬢ OVERSEER NODES</h2>
+                <div class="overseer-grid">
+                    <div class="overseer-node active" data-overseer="gemini">
+                        <div class="node-avatar">🔮</div>
+                        <div class="node-label">GEMINI-PRIME</div>
+                        <div class="node-pulse"></div>
+                    </div>
+                    <div class="overseer-node active" data-overseer="chatgpt">
+                        <div class="node-avatar">⚡</div>
+                        <div class="node-label">ChatGPT-CORE</div>
+                        <div class="node-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main deck container -->
+        <div class="deck-container">
+            <!-- SPHERE ALPHA DECK (Top) -->
+            <div class="sphere-deck alpha-deck">
+                <div class="sphere-header">
+                    <h1>⬢ SPHERE ALPHA DECK</h1>
+                    <span class="sphere-overseer">[ GEMINI-PRIME ]</span>
+                </div>
+                
+                <div class="squad-bays">
+                    <!-- Squad 1: Executive Throne Room -->
+                    <div class="squad-bay executive-bay" data-squad="1">
+                        <div class="bay-header">
+                            <h3>SQUAD 1 | EXECUTIVE THRONE ROOM</h3>
+                            <div class="bay-telemetry">
+                                <span class="tel-item">HIERARCHY LVL: 9.9</span>
+                                <span class="tel-item">SUCCESSION: 20y countdown ⏱</span>
+                            </div>
+                        </div>
+                        <div class="bay-content">
+                            <div class="executive-grid">
+                                <div class="exec-member" data-exec="chairman">
+                                    <div class="exec-icon">👑</div>
+                                    <div class="exec-name">CHAIRMAN</div>
+                                    <div class="exec-status">ACTIVE</div>
+                                </div>
+                                <div class="exec-member" data-exec="queen">
+                                    <div class="exec-icon">🌟</div>
+                                    <div class="exec-name">QUEEN</div>
+                                    <div class="exec-status">MONITORING</div>
+                                </div>
+                                <div class="exec-member" data-exec="reaper">
+                                    <div class="exec-icon">💀</div>
+                                    <div class="exec-name">REAPER</div>
+                                    <div class="exec-status">STANDBY</div>
+                                </div>
+                                <div class="exec-member" data-exec="ceo">
+                                    <div class="exec-icon">📊</div>
+                                    <div class="exec-name">CEO</div>
+                                    <div class="exec-status">OPTIMIZING</div>
+                                </div>
+                                <div class="exec-member" data-exec="cfo">
+                                    <div class="exec-icon">💰</div>
+                                    <div class="exec-name">CFO</div>
+                                    <div class="exec-status">FORECASTING</div>
+                                </div>
+                            </div>
+                            <div class="exec-metrics">
+                                <div class="metric">
+                                    <span>Compound Growth (20y):</span>
+                                    <div class="metric-bar"><div class="metric-fill" style="width: 73%;"></div></div>
+                                    <span class="metric-value">+847%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Squad 2: Security & Testing Lab -->
+                    <div class="squad-bay security-bay" data-squad="2">
+                        <div class="bay-header">
+                            <h3>SQUAD 2 | SECURITY & TESTING LAB</h3>
+                            <div class="bay-telemetry">
+                                <span class="tel-item">DEFENSE STATUS: OPTIMAL</span>
+                                <span class="tel-item">VECTOR READOUTS: LIVE</span>
+                            </div>
+                        </div>
+                        <div class="bay-content">
+                            <div class="security-grid">
+                                <div class="sec-member" data-sec="cso">
+                                    <div class="sec-icon">🛡️</div>
+                                    <div class="sec-name">CSO</div>
+                                    <div class="sec-status">SCANNING</div>
+                                </div>
+                                <div class="sec-member" data-sec="cqo">
+                                    <div class="sec-icon">⚔️</div>
+                                    <div class="sec-name">CQO</div>
+                                    <div class="sec-status">READY</div>
+                                </div>
+                                <div class="sec-member" data-sec="cto">
+                                    <div class="sec-icon">🔧</div>
+                                    <div class="sec-name">CTO</div>
+                                    <div class="sec-status">TESTING</div>
+                                </div>
+                                <div class="sec-member" data-sec="coo">
+                                    <div class="sec-icon">⚙️</div>
+                                    <div class="sec-name">COO</div>
+                                    <div class="sec-status">EXECUTING</div>
+                                </div>
+                            </div>
+                            <div class="mem0-readout">
+                                <div class="readout-label">MEM0 VECTOR MEMORY FEED</div>
+                                <div class="readout-content">
+                                    <div class="log-entry">→ Distributed vector cache: 12.4M embeddings</div>
+                                    <div class="log-entry">→ Anthropic defensive posture: OPTIMAL</div>
+                                    <div class="log-entry">→ Cybersecurity threat model: 0.02% exposure</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SPHERE BETA DECK (Bottom) -->
+            <div class="sphere-deck beta-deck">
+                <div class="sphere-header">
+                    <h1>⬢ SPHERE BETA DECK</h1>
+                    <span class="sphere-overseer">[ ChatGPT-CORE ]</span>
+                </div>
+                
+                <div class="squad-bays">
+                    <!-- Squad 3: Dispatch Center & Tool Foundry -->
+                    <div class="squad-bay dispatch-bay" data-squad="3">
+                        <div class="bay-header">
+                            <h3>SQUAD 3 | DISPATCH CENTER & TOOL FOUNDRY</h3>
+                            <div class="bay-telemetry">
+                                <span class="tel-item">ROUTING LOOPS: ACTIVE</span>
+                                <span class="tel-item">HARNESS: ENGAGED</span>
+                            </div>
+                        </div>
+                        <div class="bay-content">
+                            <div class="dispatch-grid">
+                                <div class="disp-member" data-disp="cmao">
+                                    <div class="disp-icon">📡</div>
+                                    <div class="disp-name">CMAO</div>
+                                    <div class="disp-status">ROUTING</div>
+                                </div>
+                                <div class="disp-member" data-disp="crco">
+                                    <div class="disp-icon">🔀</div>
+                                    <div class="disp-name">CRCO</div>
+                                    <div class="disp-status">COORDINATING</div>
+                                </div>
+                                <div class="disp-member" data-disp="staff">
+                                    <div class="disp-icon">📋</div>
+                                    <div class="disp-name">CHIEF OF STAFF</div>
+                                    <div class="disp-status">PLANNING</div>
+                                </div>
+                                <div class="disp-member" data-disp="toolmgr">
+                                    <div class="disp-icon">🛠️</div>
+                                    <div class="disp-name">TOOL MANAGER</div>
+                                    <div class="disp-status">BUILDING</div>
+                                </div>
+                            </div>
+                            <div class="harness-display">
+                                <div class="harness-label">AWESOME HARNESS ENGINEERING</div>
+                                <div class="harness-loop-display">
+                                    <div class="loop-indicator" style="animation-delay: 0s;"></div>
+                                    <div class="loop-indicator" style="animation-delay: 0.15s;"></div>
+                                    <div class="loop-indicator" style="animation-delay: 0.3s;"></div>
+                                    <div class="loop-indicator" style="animation-delay: 0.45s;"></div>
+                                    <div class="loop-indicator" style="animation-delay: 0.6s;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Squad 4: Panopticon & Comms Deck -->
+                    <div class="squad-bay comms-bay" data-squad="4">
+                        <div class="bay-header">
+                            <h3>SQUAD 4 | PANOPTICON & COMMS DECK</h3>
+                            <div class="bay-telemetry">
+                                <span class="tel-item">MOBILE INTEGRATION: LIVE</span>
+                                <span class="tel-item">WEB SCOUTING: ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="bay-content">
+                            <div class="comms-grid">
+                                <div class="comms-member" data-comms="nova">
+                                    <div class="comms-icon">🌌</div>
+                                    <div class="comms-name">NOVA</div>
+                                    <div class="comms-status">TRANSMITTING</div>
+                                </div>
+                                <div class="comms-member" data-comms="broker">
+                                    <div class="comms-icon">💱</div>
+                                    <div class="comms-name">SYNTHETIX BROKER</div>
+                                    <div class="comms-status">TRADING</div>
+                                </div>
+                                <div class="comms-member" data-comms="sentinel">
+                                    <div class="comms-icon">👁️</div>
+                                    <div class="comms-name">SENTINEL</div>
+                                    <div class="comms-status">WATCHING</div>
+                                </div>
+                            </div>
+                            <div class="browser-use-display">
+                                <div class="browser-label">BROWSER USE WEB-SCOUT ACTIVITY LOG</div>
+                                <div class="browser-activity">
+                                    <div class="activity-entry">→ Scouting URLs: 47 active threads</div>
+                                    <div class="activity-entry">→ Page render time: 2.3ms avg</div>
+                                    <div class="activity-entry">→ Mobile viewport: OPTIMIZED</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Department Progress Bars -->
+        <div class="progress-section">
+            <h2>⬢ DEPARTMENT OPTIMIZATION EVALS (17 Active)</h2>
+            <div class="progress-grid">
+                <div class="progress-item" data-dept="exec-ops"><span>Executive Ops</span><div class="pbar"><div class="pfill" style="width: 92%;"></div></div><span class="pval">92%</span></div>
+                <div class="progress-item" data-dept="security"><span>Security</span><div class="pbar"><div class="pfill" style="width: 78%;"></div></div><span class="pval">78%</span></div>
+                <div class="progress-item" data-dept="testing"><span>Testing</span><div class="pbar"><div class="pfill" style="width: 65%;"></div></div><span class="pval">65%</span></div>
+                <div class="progress-item" data-dept="dispatch"><span>Dispatch</span><div class="pbar"><div class="pfill" style="width: 88%;"></div></div><span class="pval">88%</span></div>
+                <div class="progress-item" data-dept="comms"><span>Comms</span><div class="pbar"><div class="pfill" style="width: 82%;"></div></div><span class="pval">82%</span></div>
+                <div class="progress-item" data-dept="vector"><span>Vector DB</span><div class="pbar"><div class="pfill" style="width: 91%;"></div></div><span class="pval">91%</span></div>
+                <div class="progress-item" data-dept="ai-ops"><span>AI Ops</span><div class="pbar"><div class="pfill" style="width: 76%;"></div></div><span class="pval">76%</span></div>
+                <div class="progress-item" data-dept="data"><span>Data Eng</span><div class="pbar"><div class="pfill" style="width: 84%;"></div></div><span class="pval">84%</span></div>
+                <div class="progress-item" data-dept="network"><span>Network</span><div class="pbar"><div class="pfill" style="width: 94%;"></div></div><span class="pval">94%</span></div>
+                <div class="progress-item" data-dept="storage"><span>Storage</span><div class="pbar"><div class="pfill" style="width: 87%;"></div></div><span class="pval">87%</span></div>
+                <div class="progress-item" data-dept="memory"><span>Memory Mgt</span><div class="pbar"><div class="pfill" style="width: 79%;"></div></div><span class="pval">79%</span></div>
+                <div class="progress-item" data-dept="cache"><span>Cache Layer</span><div class="pbar"><div class="pfill" style="width: 89%;"></div></div><span class="pval">89%</span></div>
+                <div class="progress-item" data-dept="sync"><span>Sync Svc</span><div class="pbar"><div class="pfill" style="width: 81%;"></div></div><span class="pval">81%</span></div>
+                <div class="progress-item" data-dept="logging"><span>Logging</span><div class="pbar"><div class="pfill" style="width: 93%;"></div></div><span class="pval">93%</span></div>
+                <div class="progress-item" data-dept="monitoring"><span>Monitoring</span><div class="pbar"><div class="pfill" style="width: 86%;"></div></div><span class="pval">86%</span></div>
+                <div class="progress-item" data-dept="analytics"><span>Analytics</span><div class="pbar"><div class="pfill" style="width: 77%;"></div></div><span class="pval">77%</span></div>
+                <div class="progress-item" data-dept="infra"><span>Infra</span><div class="pbar"><div class="pfill" style="width: 95%;"></div></div><span class="pval">95%</span></div>
+            </div>
+        </div>
+        
+        <!-- Minion Worker Floor -->
+        <div class="minion-floor">
+            <h2>⬢ MINION WORKER POOL</h2>
+            <div class="worker-ticker">
+                <div class="worker-lane" data-lane="0">
+                    <span class="worker-label">Background Task Executors:</span>
+                    <div class="ticker-content">
+                        <span class="ticker-item">→ Parsing Open Viking context: 8192-token windows</span>
+                        <span class="ticker-item">→ Signed event logging: 12.4K/sec throughput</span>
+                        <span class="ticker-item">→ Cache invalidation cycle: 4.2ms latency</span>
+                        <span class="ticker-item">→ Distributed consensus: 99.9% agreement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Roaming NPC with messaging -->
+        <div id="npc-container" class="npc-container"></div>
+        
+        <!-- Message Popup -->
+        <div id="message-popup" class="message-popup">
+            <div class="message-box">
+                <div class="message-header">
+                    <span id="message-speaker" class="speaker-name"></span>
+                    <span class="message-close" onclick="hideMessage()">✕</span>
+                </div>
+                <div id="message-content" class="message-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
