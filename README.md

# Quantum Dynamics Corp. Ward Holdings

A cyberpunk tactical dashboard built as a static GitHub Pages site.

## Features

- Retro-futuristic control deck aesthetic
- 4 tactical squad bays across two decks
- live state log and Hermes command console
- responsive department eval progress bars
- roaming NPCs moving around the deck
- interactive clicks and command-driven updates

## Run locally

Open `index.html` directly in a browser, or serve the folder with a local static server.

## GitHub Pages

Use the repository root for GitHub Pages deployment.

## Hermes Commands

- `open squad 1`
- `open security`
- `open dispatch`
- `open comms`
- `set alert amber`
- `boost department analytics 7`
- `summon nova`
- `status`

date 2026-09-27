@@ -358,3 +358,18 @@ window.addEventListener('load', () => {
 pushStateLog('Hermes relay online. Quantum Dynamics Corp. Ward Holdings ready.');
 
 commandInput.value = 'open squad 1';
+
+// last minute stability patch
+setTimeout(() => {
+  document.querySelectorAll('.progress-item').forEach((item) => {
+    const fill = item.querySelector('span');
+    const text = item.querySelector('strong');
+    if (!fill.style.width) fill.style.width = text.textContent.replace('%', '') + '%';
+  });
+}, 50);
+
+// force a small initial alert to keep command deck pulse alive
+setTimeout(() => {
+  setAlert('stabilized');
+}, 250);
+
